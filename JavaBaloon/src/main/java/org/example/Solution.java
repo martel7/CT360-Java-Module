@@ -14,7 +14,6 @@ public class Solution {
 
         for(int i = 0; i < 7; i++){
 
-
             if(S.indexOf(balloon.charAt(i)) >= 0){
                 //System.out.println(S.indexOf(balloon.charAt(i)));
                 replace = "";
@@ -25,9 +24,7 @@ public class Solution {
                 addChar += balloon.charAt(i);
                 findBalloon += addChar;
             }
-            else{
-                return noOfBalloons;
-            }
+            else return noOfBalloons;
 
             if(findBalloon.equals("BALLOON")) {
                 i = -1;
