@@ -2,26 +2,30 @@ package org.example;
 
 public class Solution {
 
+    public String wordToFind;
+
+    public Solution(String wordToFind) {
+        this.wordToFind = wordToFind;
+    }
     public int solution (String S){
 
         //Base case, there is no Balloons in a string with less than 7 characters
         if(S.length() < 7) return 0;
 
         int noOfBalloons = 0;
-        String balloon = "BALLOON";
         String findBalloon = "";
         String replace, addChar;
 
         for(int i = 0; i < 7; i++){
 
-            if(S.indexOf(balloon.charAt(i)) >= 0){
+            if(S.indexOf(wordToFind.charAt(i)) >= 0){
                 //System.out.println(S.indexOf(balloon.charAt(i)));
                 replace = "";
-                replace += balloon.charAt(i);
+                replace += wordToFind.charAt(i);
                 S = S.replaceFirst(replace, "");
 
                 addChar = "";
-                addChar += balloon.charAt(i);
+                addChar += wordToFind.charAt(i);
                 findBalloon += addChar;
             }
             else return noOfBalloons;
