@@ -3,10 +3,13 @@ package org.example;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Solution {
-
     public String wordToFind;
+
+    private static final Logger logger = Logger.getLogger(Solution.class.getName());
 
     public Solution(String wordToFind) {
         this.wordToFind = wordToFind;
@@ -61,7 +64,8 @@ public class Solution {
             return lines.toArray(new String[0]);
         }
         catch (FileNotFoundException e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.info("File not found on that path when it was searched for it.");
         }
         catch (IOException e) {
             e.printStackTrace();
