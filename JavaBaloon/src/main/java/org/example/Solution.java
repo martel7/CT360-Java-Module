@@ -1,9 +1,10 @@
 package org.example;
 
+import exceptions.EmptyFileException;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Solution {
@@ -61,6 +62,9 @@ public class Solution {
             }
             reader.close();
 
+            if(lines.isEmpty())
+                throw new EmptyFileException("The file is empty.");
+
             return lines.toArray(new String[0]);
         }
 //        catch (FileNotFoundException e){
@@ -75,6 +79,10 @@ public class Solution {
 //        }
         catch (IOException | NullPointerException exception){
             logger.info(exception.toString());
+            //System.out.println(exception);
+        }
+        catch (EmptyFileException efe){
+            logger.info(efe.getMessage());
         }
 
         return null;
@@ -91,9 +99,9 @@ public class Solution {
             else
                 System.out.println("File already exists.");
         }
-        catch (IOException e) {
+        catch (IOException ioe) {
             System.out.println("An error occurred while creating a file.");
-            e.printStackTrace();
+            logger.info(ioe.getMessage());
         }
         finally {
             try {
@@ -104,9 +112,9 @@ public class Solution {
                 }
                 writer.close();
             }
-            catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
+            catch (IOException ioe) {
+                System.out.println("An error occurred while writing to a file.");
+                logger.info(ioe.getMessage());
             }
         }
     }
