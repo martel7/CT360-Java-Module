@@ -63,12 +63,18 @@ public class Solution {
 
             return lines.toArray(new String[0]);
         }
-        catch (FileNotFoundException e){
-            //e.printStackTrace();
-            logger.info("File not found on that path when it was searched for it.");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+//        catch (FileNotFoundException e){
+//            //e.printStackTrace();
+//            logger.info("File not found on that path when it was searched for it.");
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        catch (NullPointerException npe){
+//            logger.info("Passed a null argument for filePath in readLines method.");
+//        }
+        catch (IOException | NullPointerException exception){
+            logger.info(exception.toString());
         }
 
         return null;

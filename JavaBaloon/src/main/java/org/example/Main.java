@@ -14,6 +14,8 @@ public class Main {
 
         String[] lines = balloonCounter.readLines("stringsToCheck.txt");
         String[] lines1 = balloonCounter.readLines("nonExistent.txt");
+        String[] lines2 = balloonCounter.readLines(null); //unchecked exception
+
 
         balloonCounter.writeResults(lines);
     }
