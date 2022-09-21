@@ -17,7 +17,7 @@ public class Solution {
     public int solution (String S){
 
         //Base case, there is no Balloons in a string with less than 7 characters
-        if(S.length() < 7) return 0;
+        if(S.length() < wordToFind.length()) return 0;
 
         int noOfBalloons = 0;
         String findBalloon = "";
