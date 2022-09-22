@@ -1,6 +1,7 @@
 package org.example;
 
 import exceptions.EmptyFileException;
+import exceptions.FileAlreadyExistsException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ public class Solution {
     }
     public int solution (String S){
 
-        //Base case, there is no Balloons in a string with less than 7 characters
-        if(S.length() < wordToFind.length()) return 0;
-
         int noOfBalloons = 0;
         String findBalloon = "";
         String replace, addChar;
 
-        for(int i = 0; i < 7; i++){
+        //Base case, there is no Balloons in a string with less than 7 characters
+        if(S.length() < wordToFind.length()) return 0;
+
+        for(int i = 0; i < wordToFind.length(); i++){
 
             if(S.indexOf(wordToFind.charAt(i)) >= 0){
                 //System.out.println(S.indexOf(balloon.charAt(i)));
@@ -36,7 +37,7 @@ public class Solution {
                 addChar += wordToFind.charAt(i);
                 findBalloon += addChar;
             }
-            else return noOfBalloons;
+            else break;
 
             if(findBalloon.equals("BALLOON")) {
                 i = -1;
@@ -48,7 +49,7 @@ public class Solution {
         return noOfBalloons;
     }
 
-    public String[] readLines(String filePath){
+    public String[] readLines(String filePath) throws Exception{
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(filePath));
@@ -79,6 +80,7 @@ public class Solution {
 //        }
         catch (IOException | NullPointerException exception){
             logger.info(exception.toString());
+            throw exception;
             //System.out.println(exception);
         }
         catch (EmptyFileException efe){
@@ -88,20 +90,21 @@ public class Solution {
         return null;
     }
 
-    public void writeResults(String[] lines){
+    public void writeResults(String[] lines, String outputFilePath) throws IOException{
 
         File file = null;
 
         try {
-            file = new File("results.txt");
+            file = new File(outputFilePath);
             if (file.createNewFile())
                 System.out.println("File successfully created: " + file.getName());
             else
-                System.out.println("File already exists.");
+//                System.out.println("File already exists.");
+                throw new FileAlreadyExistsException("File already exists");
         }
-        catch (IOException ioe) {
-            System.out.println("An error occurred while creating a file.");
-            logger.info(ioe.getMessage());
+        catch (IOException | FileAlreadyExistsException e) {
+            logger.info(e.getMessage());
+            throw e;
         }
         finally {
             try {
@@ -112,9 +115,9 @@ public class Solution {
                 }
                 writer.close();
             }
-            catch (IOException ioe) {
-                System.out.println("An error occurred while writing to a file.");
-                logger.info(ioe.getMessage());
+            catch (IOException | NullPointerException e) {
+                logger.info(e.getMessage());
+                throw e;
             }
         }
     }

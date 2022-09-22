@@ -2,13 +2,11 @@ package org.example;
 
 import com.google.common.base.Stopwatch;
 import exceptions.EmptyFileException;
+import exceptions.FileAlreadyExistsException;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +29,7 @@ class SolutionTest {
     //    @Test
 //    @Order(1)
     @BeforeAll
-    static void readLines() {
+    static void readLines() throws Exception{
         lines = balloonCounter.readLines("../stringsToCheck.txt");
     }
     @BeforeAll
@@ -103,11 +101,80 @@ class SolutionTest {
             }
             reader.close();
 
-            if(linesFromFile.size() != lines.length)
+            if (linesFromFile.size() != lines.length)
                 Assertions.fail("results.txt does not have the required number of entries.");
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    @Order(4)
+    void checkWrite() throws IOException{
+        try{
+            balloonCounter.writeResults(lines, "results.txt");
+        }
+        catch (IOException | FileAlreadyExistsException e){
+            logger.info("checkWrite() caught exception.");
+        }
+    }
+
+    //@Test(expected = IOException.class)
+    @Test()
+    void testException() throws Exception{
+        try {
+            balloonCounter.readLines("blabla.txt");
+        }
+        catch (IOException e) {
+            logger.info("IOException thrown");
+        }
+//        assertThrows(IOException.class,()->{
+//            logger.info("IOException thrown");
+//        });
+    }
+
+    @Test()
+    void testEmptyFileException() throws Exception{
+        try {
+            balloonCounter.readLines("../emptyFile.txt");
+        }
+        catch (EmptyFileException e) {
+            logger.info("Tried to read from an empty file");
+        }
+    }
+
+    @Test()
+    void testIfReadLinesIsNull() throws Exception{
+        assertEquals(null, balloonCounter.readLines("../emptyFile.txt"));
+    }
+
+    @Test()
+    void testReturnOfSolution(){
+        Solution x = new Solution("#####");
+        x.solution("QWERITYASDUOIZXKLVB");
+    }
+
+    @Test
+    void writeResultsIOException(){
+        try{
+            balloonCounter.writeResults(null, "results.txt");
+        }
+        catch (NullPointerException e){
+            logger.info("writeResultsIOException() NullPointerException caught.");
+        }
+        catch (IOException e){
+            logger.info("writeResultsIOException() IOException caught.");
+        }
+    }
+
+    @Test
+    void outputFilePathExists() throws Exception{
+        try{
+            balloonCounter.writeResults(lines, "results.txt");
+        }
+        catch (FileAlreadyExistsException e){
+            logger.info("outputFilePathExists() FileAlreadyExistsException caught.");
         }
     }
 }
