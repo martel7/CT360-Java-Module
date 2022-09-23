@@ -1,9 +1,14 @@
 package org.example;
 
+import exceptions.FileAlreadyExistsException;
+
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
+
+         final Logger logger = Logger.getLogger(Solution.class.getName());
 
         Solution balloonCounter = new Solution("BALLOON");
         String[] lines = null;
@@ -15,14 +20,17 @@ public class Main {
             String[] lines23 = balloonCounter.readLines("emptyFile.txt");
         }
         catch (Exception e){
-            e.printStackTrace();
+            logger.info("Exception caught in main: " + e.toString());
         }
 
         try {
             balloonCounter.writeResults(lines, "results.txt");
         }
-        catch (IOException e){
-            e.printStackTrace();
+        catch (FileAlreadyExistsException | IOException e){
+            logger.info("File already exists:" + e.toString());
         }
+
+
+        Servlet servlet = new Servlet();
     }
 }

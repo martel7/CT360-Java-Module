@@ -10,12 +10,19 @@ import java.util.logging.Logger;
 
 public class Solution {
     public String wordToFind;
-
+    public String getWordToFind() {
+        return wordToFind;
+    }
+    public void setWordToFind(String wordToFind) {
+        this.wordToFind = wordToFind;
+    }
     private static final Logger logger = Logger.getLogger(Solution.class.getName());
 
     public Solution(String wordToFind) {
         this.wordToFind = wordToFind;
     }
+
+    public Solution(){}
     public int solution (String S){
 
         int noOfBalloons = 0;
@@ -68,16 +75,6 @@ public class Solution {
 
             return lines.toArray(new String[0]);
         }
-//        catch (FileNotFoundException e){
-//            //e.printStackTrace();
-//            logger.info("File not found on that path when it was searched for it.");
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        catch (NullPointerException npe){
-//            logger.info("Passed a null argument for filePath in readLines method.");
-//        }
         catch (IOException | NullPointerException exception){
             logger.info(exception.toString());
             throw exception;
@@ -85,12 +82,11 @@ public class Solution {
         }
         catch (EmptyFileException efe){
             logger.info(efe.getMessage());
+            throw efe;
         }
-
-        return null;
     }
 
-    public void writeResults(String[] lines, String outputFilePath) throws IOException{
+    public int writeResults(String[] lines, String outputFilePath) throws IOException{
 
         File file = null;
 
@@ -99,7 +95,6 @@ public class Solution {
             if (file.createNewFile())
                 System.out.println("File successfully created: " + file.getName());
             else
-//                System.out.println("File already exists.");
                 throw new FileAlreadyExistsException("File already exists");
         }
         catch (IOException | FileAlreadyExistsException e) {
@@ -114,6 +109,8 @@ public class Solution {
                     writer.write('\n');
                 }
                 writer.close();
+
+                return lines.length;
             }
             catch (IOException | NullPointerException e) {
                 logger.info(e.getMessage());
