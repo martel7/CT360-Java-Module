@@ -63,6 +63,7 @@ public class Solution {
             reader = new BufferedReader(new FileReader(filePath));
             List<String> lines = new ArrayList<String>();
             String line = reader.readLine();
+            line = reader.readLine();
 
             while (line != null) {
                 lines.add(line);
