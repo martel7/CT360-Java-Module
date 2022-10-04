@@ -62,13 +62,12 @@ public class Solution {
         try {
             reader = new BufferedReader(new FileReader(filePath));
             List<String> lines = new ArrayList<String>();
-            //String line = reader.readLine();
             String line = reader.readLine();
 
             while (line != null) {
                 lines.add(line);
                 line = reader.readLine();
-                //System.out.println(line);
+                System.out.println(line);
             }
             reader.close();
 

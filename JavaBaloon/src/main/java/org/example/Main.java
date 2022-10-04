@@ -39,20 +39,22 @@ public class Main {
 
         Servlet servlet = new Servlet();*/
 
-        List<Task> tasks = new ArrayList<Task>();
+        SimpleThreadFactory factory = new SimpleThreadFactory();
+        List<Thread> tasks = new ArrayList<Thread>();
 
         //read how many txt files are there and make a new task for each
         File folder =  new File("JavaBaloon/filesToCheck");
         int numberOfFiles = folder.listFiles().length;
         for(File f : folder.listFiles()){
-            tasks.add(new Task(f.getName()));
+            //tasks.add(new Task(f.getName()));
+            tasks.add(factory.newThread(new Task(f.getName())));
         }
 
         ExecutorService pool = Executors.newCachedThreadPool();
         //ExecutorService pool = Executors.newFixedThreadPool(1);
 
 
-        for(Task t : tasks)
+        for(Thread t : tasks)
             pool.execute(t);
 
         pool.shutdown();
