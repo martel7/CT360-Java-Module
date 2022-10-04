@@ -1,14 +1,20 @@
 package org.example;
 
 import exceptions.FileAlreadyExistsException;
+import tasks.Task;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
 
-         final Logger logger = Logger.getLogger(Solution.class.getName());
+        /*final Logger logger = Logger.getLogger(Solution.class.getName());
 
         Solution balloonCounter = new Solution("BALLOON");
         String[] lines = null;
@@ -31,6 +37,24 @@ public class Main {
         }
 
 
-        Servlet servlet = new Servlet();
+        Servlet servlet = new Servlet();*/
+
+        List<Task> tasks = new ArrayList<Task>();
+
+        //read how many txt files are there and make a new task for each
+        File folder =  new File("JavaBaloon/filesToCheck");
+        int numberOfFiles = folder.listFiles().length;
+        for(File f : folder.listFiles()){
+            tasks.add(new Task(f.getName()));
+        }
+
+        ExecutorService pool = Executors.newCachedThreadPool();
+        //ExecutorService pool = Executors.newFixedThreadPool(1);
+
+
+        for(Task t : tasks)
+            pool.execute(t);
+
+        pool.shutdown();
     }
 }

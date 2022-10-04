@@ -4,6 +4,7 @@ import exceptions.EmptyFileException;
 import exceptions.FileAlreadyExistsException;
 
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -67,6 +68,7 @@ public class Solution {
             while (line != null) {
                 lines.add(line);
                 line = reader.readLine();
+                //System.out.println(line);
             }
             reader.close();
 
@@ -103,11 +105,13 @@ public class Solution {
         }
         finally {
             try {
-                FileWriter writer = new FileWriter(file);
+                FileWriter writer = new FileWriter(file, true);
                 for(String s : lines) {
                     writer.write(Integer.toString(this.solution(s)));
                     writer.write('\n');
                 }
+                writer.write("----\n");
+
                 writer.close();
 
                 return lines.length;
